@@ -1,0 +1,151 @@
+CREATE TABLE [Genres] (
+	Id integer NOT NULL,
+	Name string NOT NULL,
+  CONSTRAINT [PK_GENRES] PRIMARY KEY CLUSTERED
+  (
+  [Id] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Acters] (
+	Id integer NOT NULL,
+	Name varchar(255) NOT NULL,
+	Surname varchar(255) NOT NULL,
+  CONSTRAINT [PK_ACTERS] PRIMARY KEY CLUSTERED
+  (
+  [Id] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Halls] (
+	Id integer NOT NULL,
+	Name varchar(255) NOT NULL,
+	Seats integer NOT NULL,
+  CONSTRAINT [PK_HALLS] PRIMARY KEY CLUSTERED
+  (
+  [Id] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Sessions] (
+	Id integer NOT NULL,
+	Star datetime NOT NULL,
+	End datetime NOT NULL,
+	HalllId integer NOT NULL,
+	MovieId integer NOT NULL,
+  CONSTRAINT [PK_SESSIONS] PRIMARY KEY CLUSTERED
+  (
+  [Id] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Tickets] (
+	Id integer NOT NULL,
+	Type varchar(255) NOT NULL,
+	Price decimal NOT NULL,
+	CustomerId integer NOT NULL,
+	SessionId integer NOT NULL,
+  CONSTRAINT [PK_TICKETS] PRIMARY KEY CLUSTERED
+  (
+  [Id] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Customers] (
+	Id integer NOT NULL,
+	Fullname varchar(255) NOT NULL,
+	PhoneNumber integer NOT NULL,
+  CONSTRAINT [PK_CUSTOMERS] PRIMARY KEY CLUSTERED
+  (
+  [Id] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [MoviesGenres] (
+	Id integer NOT NULL,
+	MovieId integer NOT NULL,
+	GenreId integer NOT NULL,
+  CONSTRAINT [PK_MOVIESGENRES] PRIMARY KEY CLUSTERED
+  (
+  [Id] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [MovieActer] (
+	Id integer NOT NULL,
+	MovieId integer NOT NULL,
+	ActerId integer NOT NULL,
+  CONSTRAINT [PK_MOVIEACTER] PRIMARY KEY CLUSTERED
+  (
+  [Id] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+CREATE TABLE [Movies] (
+	Id integer NOT NULL,
+	Name varchar(255) NOT NULL,
+	Duration integer NOT NULL,
+  CONSTRAINT [PK_MOVIES] PRIMARY KEY CLUSTERED
+  (
+  [Id] ASC
+  ) WITH (IGNORE_DUP_KEY = OFF)
+
+)
+GO
+
+
+
+ALTER TABLE [Sessions] WITH CHECK ADD CONSTRAINT [Sessions_fk0] FOREIGN KEY ([HalllId]) REFERENCES [Halls]([Id])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Sessions] CHECK CONSTRAINT [Sessions_fk0]
+GO
+ALTER TABLE [Sessions] WITH CHECK ADD CONSTRAINT [Sessions_fk1] FOREIGN KEY ([MovieId]) REFERENCES [Movies]([Id])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Sessions] CHECK CONSTRAINT [Sessions_fk1]
+GO
+
+ALTER TABLE [Tickets] WITH CHECK ADD CONSTRAINT [Tickets_fk0] FOREIGN KEY ([CustomerId]) REFERENCES [Customers]([Id])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Tickets] CHECK CONSTRAINT [Tickets_fk0]
+GO
+ALTER TABLE [Tickets] WITH CHECK ADD CONSTRAINT [Tickets_fk1] FOREIGN KEY ([SessionId]) REFERENCES [Sessions]([Id])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [Tickets] CHECK CONSTRAINT [Tickets_fk1]
+GO
+
+
+ALTER TABLE [MoviesGenres] WITH CHECK ADD CONSTRAINT [MoviesGenres_fk0] FOREIGN KEY ([MovieId]) REFERENCES [Movies]([Id])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [MoviesGenres] CHECK CONSTRAINT [MoviesGenres_fk0]
+GO
+ALTER TABLE [MoviesGenres] WITH CHECK ADD CONSTRAINT [MoviesGenres_fk1] FOREIGN KEY ([GenreId]) REFERENCES [Genres]([Id])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [MoviesGenres] CHECK CONSTRAINT [MoviesGenres_fk1]
+GO
+
+ALTER TABLE [MovieActer] WITH CHECK ADD CONSTRAINT [MovieActer_fk0] FOREIGN KEY ([MovieId]) REFERENCES [Movies]([Id])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [MovieActer] CHECK CONSTRAINT [MovieActer_fk0]
+GO
+ALTER TABLE [MovieActer] WITH CHECK ADD CONSTRAINT [MovieActer_fk1] FOREIGN KEY ([ActerId]) REFERENCES [Acters]([Id])
+ON UPDATE CASCADE
+GO
+ALTER TABLE [MovieActer] CHECK CONSTRAINT [MovieActer_fk1]
+GO
+
+
